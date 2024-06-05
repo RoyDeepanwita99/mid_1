@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/HomePage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-//import 'login_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -44,12 +43,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
           );
         } else {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('Registration failed')));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Registration failed')),
+          );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${response.statusCode}')));
+          SnackBar(content: Text('Error: ${response.statusCode}')),
+        );
       }
     }
   }
@@ -66,35 +67,83 @@ class _RegistrationPageState extends State<RegistrationPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) => value!.isEmpty ? 'Enter email' : null,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter email';
+                  }
+                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                  if (!emailRegex.hasMatch(value)) {
+                    return 'Enter a valid email';
+                  }
+                  return null;
+                },
               ),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock),
+                ),
                 obscureText: true,
-                validator: (value) => value!.isEmpty ? 'Enter password' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _firstNameController,
-                decoration: InputDecoration(labelText: 'First Name'),
+                decoration: InputDecoration(
+                  labelText: 'First Name',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
                 validator: (value) =>
                     value!.isEmpty ? 'Enter first name' : null,
               ),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _lastNameController,
-                decoration: InputDecoration(labelText: 'Last Name'),
+                decoration: InputDecoration(
+                  labelText: 'Last Name',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.person),
+                ),
                 validator: (value) => value!.isEmpty ? 'Enter last name' : null,
               ),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _mobileController,
-                decoration: InputDecoration(labelText: 'Mobile'),
+                decoration: InputDecoration(
+                  labelText: 'Mobile',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.phone),
+                ),
+                keyboardType: TextInputType.phone,
                 validator: (value) =>
                     value!.isEmpty ? 'Enter mobile number' : null,
               ),
+              SizedBox(height: 16),
               TextFormField(
                 controller: _photoController,
-                decoration: InputDecoration(labelText: 'Photo URL'),
+                decoration: InputDecoration(
+                  labelText: 'Photo URL',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.photo),
+                ),
                 validator: (value) => value!.isEmpty ? 'Enter photo URL' : null,
               ),
               SizedBox(height: 20),
